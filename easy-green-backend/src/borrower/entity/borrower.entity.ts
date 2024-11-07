@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToMany, JoinTable, OneToMany } from "typeorm";
 import { User } from '../../user/entity/user.entity';
 import { Loan } from "src/loan/entity/loan.entity";
+import { AddressDto } from "../dto/create-borrower.dto";
 
 export enum EmploymentStatus {
     Employed = 'Employed',
@@ -12,15 +13,18 @@ export enum EmploymentStatus {
 
 @Entity()
 export class Borrower {
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryGeneratedColumn()
     borrowerId: number;
 
     @OneToOne(() => User, (user) => user.userId)
     @JoinColumn()
     user: User;
 
-    @Column({ length: 11, nullable: true, unique:true }) // NIN is usually 11 digits
-    NINNumber?: string;
+    @Column({length:11, type: 'varchar'})
+    bvn: string;
+
+    @Column({ type: 'blob', nullable: true })
+    NINNumber?: Buffer;
 
     @Column({ type: 'blob', nullable: true })
     passportPhoto?: Buffer;
@@ -50,7 +54,7 @@ export class Borrower {
         lastName: string;
         phoneNumber: string;
         relationship: string;
-        houseAddress: string;
+        houseAddress: AddressDto;
     }
 
     @Column({ length: 50, nullable: true })

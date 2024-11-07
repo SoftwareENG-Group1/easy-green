@@ -2,6 +2,7 @@ import { Type } from 'class-transformer';
 import { IsString, IsOptional, IsEnum, IsNumber, IsArray, IsObject, Length, IsNotEmpty, IsUUID, ValidateNested, IsDecimal } from 'class-validator';
 import { EmploymentStatus } from '../entity/borrower.entity';
 import { Loan } from 'src/loan/entity/loan.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class AddressDto {
     @IsString()
@@ -42,21 +43,23 @@ export class NextOfKinDto {
     @IsNotEmpty()
     relationship: string;
 
-    @IsString()
+    @ValidateNested()
+    @Type(() => AddressDto)
     @IsNotEmpty()
-    houseAddress: string;
+    houseAddress: AddressDto;
 }
 
 export class CreateBorrowerDto {
-
-    @IsUUID()
     @IsNotEmpty()
-    userId: string; // creates the user then get the userId to create the borrower
+    userId: number; // creates the user then get the userId to create the borrower
 
     @IsString()
     @Length(11, 11)
+    bvn: string;
+
+
     @IsOptional()
-    NINNumber?: string;
+    NINNumber?: Buffer;
 
     @IsOptional()
     passportPhoto?: Buffer;
