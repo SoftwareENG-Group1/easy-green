@@ -14,8 +14,7 @@ services:
     envVars:
       - key: DATABASE_URL
         value: "mysql://root:damilOlamide14$@localhost:3306/easy_green"
-
-
+        
     # Health check path
     healthCheckPath: "/health"  # Render uses this to determine if your service is up
 
