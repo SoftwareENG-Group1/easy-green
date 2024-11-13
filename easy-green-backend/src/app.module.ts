@@ -9,6 +9,7 @@ import { UserModule } from './user/user.module';
 import { BorrowerModule } from './borrower/borrower.module';
 import { LoanModule } from './loan/loan.module';
 import { MonthlyPaymentsModule } from './monthly-payments/monthly-payments.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { MonthlyPaymentsModule } from './monthly-payments/monthly-payments.modul
     UserModule,
     BorrowerModule,
     LoanModule,
-    MonthlyPaymentsModule
+    MonthlyPaymentsModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
