@@ -35,10 +35,10 @@ export class CreateLoanDto {
     @IsNotEmpty()
     endDate: Date;
 
-    @IsArray()
-    @ValidateNested({ each: true })
-    @Type(() => MonthlyPayment)
-    monthlyPayments: MonthlyPayment[];
+    // @IsArray()
+    // @ValidateNested({ each: true })
+    // @Type(() => MonthlyPayment)
+    // monthlyPayments?: MonthlyPayment[];
 
     @IsNumber({ maxDecimalPlaces: 2 })
     @IsNotEmpty()
