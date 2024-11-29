@@ -9,6 +9,9 @@ import { UserModule } from './user/user.module';
 import { BorrowerModule } from './borrower/borrower.module';
 import { LoanModule } from './loan/loan.module';
 import { MonthlyPaymentsModule } from './monthly-payments/monthly-payments.module';
+import { ContributionsModule } from './contributions/contributions.module';
+import { MonthlyContributionsModule } from './monthly-contributions/monthly-contributions.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -23,7 +26,10 @@ import { MonthlyPaymentsModule } from './monthly-payments/monthly-payments.modul
     UserModule,
     BorrowerModule,
     LoanModule,
-    MonthlyPaymentsModule
+    MonthlyPaymentsModule,
+    ContributionsModule,
+    MonthlyContributionsModule,
+    TransactionsModule
   ],
   controllers: [AppController],
   providers: [AppService],
