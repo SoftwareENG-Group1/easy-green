@@ -1,5 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
 import { Loan } from "src/loan/entity/loan.entity";
+import {Transactions } from "src/transactions/entity/transactions.entity";
+
+export enum LoanPaymentStatus {
+    Paid = 'Paid',
+    Defaulted = 'Defaulted',
+    Pending = 'Pending',
+}
 
 @Entity()
 export class MonthlyPayment {
@@ -11,6 +18,16 @@ export class MonthlyPayment {
 
     @Column('decimal', { precision: 12, scale: 2 })
     principal: number // Amortization principle per month
+
+    @Column({
+        type: 'enum',
+        enum: LoanPaymentStatus,
+        default: LoanPaymentStatus.Pending,
+    })
+    status: LoanPaymentStatus;  // Payment status
+
+    @OneToMany(()=> Transactions, (transactions) => transactions.monthlyPayments)
+    transactions: Transactions[];  // Relationship with Transaction
 
     @Column('decimal', { precision: 12, scale: 2 })
     monthlyInterestRate: number;  // Monthly interest rate

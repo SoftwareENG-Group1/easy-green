@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToMan
 import { User } from '../../user/entity/user.entity';
 import { Loan } from "src/loan/entity/loan.entity";
 import { AddressDto } from "../dto/create-borrower.dto";
+import { Contributions } from "src/contributions/entity/contributions.entity";
 
 export enum EmploymentStatus {
     Employed = 'Employed',
@@ -17,7 +18,7 @@ export class Borrower {
     borrowerId: number;
 
     @OneToOne(() => User, (user) => user.userId)
-    @JoinColumn()
+    @JoinColumn({ name: 'userId' })
     user: User;
 
     @Column({length:11, type: 'varchar'})
@@ -85,7 +86,9 @@ export class Borrower {
     bankName: string;
 
     @OneToMany(()=> Loan, (loan)=> loan.loanId)
-    @JoinTable()
-    loans: Loan[];
+    loans?: Loan[];
+
+    @OneToMany(()=> Contributions, (contributions)=> contributions.contributionsId)
+    contributions?: Contributions[];
 
 }
