@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MonthlyContributions, MonthlyContributionStatus } from 'src/monthly-contributions/entity/monthly-contributions.entity';
+import { MonthlyContributions } from 'src/monthly-contributions/entity/monthly-contributions.entity';
 import { Repository } from 'typeorm';
 import { CreateContributionsDto } from './dto/create-contributions.dto';
 import { Contributions, ContributionStatus } from './entity/contributions.entity';
@@ -34,16 +34,6 @@ export class ContributionsService {
         contribution.interestRate = createContributionsDto.interestRate; 
         contribution.agreedMonthlyAmount = createContributionsDto.agreedMonthlyAmount; 
         const savedContribution = await this.contributionsRepository.save(contribution);
-
-        const monthlyContribution = new MonthlyContributions();
-        monthlyContribution.contributions = savedContribution;
-        monthlyContribution.amountPaid = 0;
-        monthlyContribution.status = MonthlyContributionStatus.Pending;
-        monthlyContribution.paymentDate = new Date(createContributionsDto.startDate);
-
-    
-        await this.monthlyContributionsRepository.save(monthlyContribution);
-
         return savedContribution;
         }
 
@@ -95,4 +85,5 @@ export class ContributionsService {
           
             return contributions;
           }
+          
 }
