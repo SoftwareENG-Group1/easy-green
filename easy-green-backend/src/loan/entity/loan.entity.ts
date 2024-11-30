@@ -1,12 +1,12 @@
 import { Borrower } from "src/borrower/entity/borrower.entity";
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, ManyToOne, JoinColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, ManyToOne, JoinColumn, JoinTable } from "typeorm";
 import { MonthlyPayment } from "src/monthly-payments/entity/monthly-payments.entity";
 //import { MonthlyPayment } from "./monthly-payment.entity"; // Assuming the MonthlyPayment entity is in the same folder
 
 export enum LoanStatus {
     Active = 'Active',
     Closed = 'Closed',
-    Defaulted = 'Defaulted',
+    Completed = 'Completed',
     Pending = 'Pending'
 }
 
