@@ -9,6 +9,7 @@ import { MonthlyContributions } from 'src/monthly-contributions/entity/monthly-c
 @Module({
   imports: [TypeOrmModule.forFeature([Contributions, Borrower, MonthlyContributions])],
   providers: [ContributionsService],
-  controllers: [ContributionsController]
+  controllers: [ContributionsController],
+  exports: [ContributionsService, TypeOrmModule]
 })
 export class ContributionsModule {}

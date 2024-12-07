@@ -1,3 +1,4 @@
+import { Borrower } from "src/borrower/entity/borrower.entity";
 import { Contributions } from "src/contributions/entity/contributions.entity";
 import { Loan } from "src/loan/entity/loan.entity";
 import { MonthlyContributions } from "src/monthly-contributions/entity/monthly-contributions.entity";
@@ -36,6 +37,9 @@ export class Transactions{
 
     @Column('date')
     transactionDate: Date;
+
+    @ManyToOne(()=> Borrower, (borrower)=> borrower.transactions)
+    borrower: Borrower;
 
     @ManyToOne(()=> MonthlyPayment, (monthlyPayments) => monthlyPayments.transactions, {nullable: true})
     monthlyPayments?: MonthlyPayment;

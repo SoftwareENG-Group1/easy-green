@@ -30,7 +30,7 @@ export class MonthlyContributions {
     })
     status: MonthlyContributionStatus;
 
-    @OneToMany(()=> Transactions, (transaction) => transaction.monthlyContributions)
+    @OneToMany(()=> Transactions, (transaction) => transaction.monthlyContributions, {cascade: true})
     transactions: Transactions[];
 
     @Column('date')

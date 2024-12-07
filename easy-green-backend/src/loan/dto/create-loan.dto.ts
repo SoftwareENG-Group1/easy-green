@@ -40,25 +40,15 @@ export class CreateLoanDto {
     // @Type(() => MonthlyPayment)
     // monthlyPayments?: MonthlyPayment[];
 
-    @IsNumber({ maxDecimalPlaces: 2 })
-    @IsNotEmpty()
-    outstandingBalance: number;
+    // @IsNumber({ maxDecimalPlaces: 2 })
+    // @IsOptional()
+    // outstandingBalance: number;
 
     @IsEnum(LoanStatus)
     @IsNotEmpty()
     status: LoanStatus;
 
-    @IsDate()
-    @Type(() => Date)
-    @IsOptional()
-    createdAt?: Date;
-
-    @IsDate()
-    @Type(() => Date)
-    @IsOptional()
-    updatedAt?: Date;
-
     @IsUUID()
     @IsNotEmpty()
-    borrowerId: string; // when creating a loan the borrowerId must be passed
+    borrowerId: number; // when creating a loan the borrowerId must be passed
 }

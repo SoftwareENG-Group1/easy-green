@@ -1,8 +1,15 @@
 import { Type } from 'class-transformer';
 import { IsString, IsOptional, IsEnum, IsNumber, IsArray, IsObject, Length, IsNotEmpty, IsUUID, ValidateNested, IsDecimal } from 'class-validator';
-import { EmploymentStatus } from '../entity/borrower.entity';
 import { Loan } from 'src/loan/entity/loan.entity';
 import { ApiProperty } from '@nestjs/swagger';
+
+enum EmploymentStatus {
+    Employed = 'Employed',
+    Unemployed = 'Unemployed',
+    SelfEmployed = 'Self Employed',
+    Student = 'Student',
+    Retired = 'Retired',
+}
 
 export class AddressDto {
     @IsString()
@@ -57,7 +64,6 @@ export class CreateBorrowerDto {
     @Length(11, 11)
     bvn: string;
 
-
     @IsOptional()
     NINNumber?: Buffer;
 
@@ -98,20 +104,13 @@ export class CreateBorrowerDto {
     @IsOptional()
     occupation?: string;
 
-    @IsDecimal()
-    @IsNotEmpty()
-    monthlyIncome: number;
-
-    @IsDecimal()
-    @IsOptional()
-    additionalIncome?: number;
-
-    @IsOptional()
-    bankStatement?: Buffer; 
-
     @IsString()
     @Length(10, 10)
     accountNumber: string;
+
+    @IsNumber({ maxDecimalPlaces: 2 })
+    @IsNotEmpty()
+    monthlyIncome: number;
 
     @IsString()
     @Length(1, 50)

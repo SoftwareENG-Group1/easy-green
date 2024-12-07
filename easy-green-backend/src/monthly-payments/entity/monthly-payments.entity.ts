@@ -26,7 +26,7 @@ export class MonthlyPayment {
     })
     status: LoanPaymentStatus;  // Payment status
 
-    @OneToMany(()=> Transactions, (transactions) => transactions.monthlyPayments)
+    @OneToMany(()=> Transactions, (transactions) => transactions.monthlyPayments, {cascade: true})
     transactions: Transactions[];  // Relationship with Transaction
 
     @Column('decimal', { precision: 12, scale: 2 })

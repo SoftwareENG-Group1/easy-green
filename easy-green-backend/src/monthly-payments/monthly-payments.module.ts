@@ -7,6 +7,7 @@ import { MonthlyPayment } from './entity/monthly-payments.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([MonthlyPayment])],
   controllers: [MonthlyPaymentsController],
-  providers: [MonthlyPaymentsService]
+  providers: [MonthlyPaymentsService],
+  exports: [MonthlyPaymentsService, TypeOrmModule]
 })
 export class MonthlyPaymentsModule {}

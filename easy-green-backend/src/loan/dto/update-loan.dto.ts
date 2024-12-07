@@ -5,6 +5,10 @@ import { CreateLoanDto } from './create-loan.dto';
 
 
 export class UpdateLoanDto extends PartialType(CreateLoanDto) {
+
+    @IsNumber({ maxDecimalPlaces: 2 })
+    outstandingBalance?: number;
+
     @IsOptional()
     @IsNumber({ maxDecimalPlaces: 2 })
     principal?: number;

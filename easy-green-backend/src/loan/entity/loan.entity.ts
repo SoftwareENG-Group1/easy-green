@@ -36,11 +36,17 @@ export class Loan {
     @Column('date')
     endDate: Date;  // Date when the loan is expected to end
 
-    @OneToMany(() => MonthlyPayment, (monthlyPayment) => monthlyPayment.loan)
+    @OneToMany(() => MonthlyPayment, (monthlyPayment) => monthlyPayment.loan, {cascade: true})
     monthlyPayments: MonthlyPayment[];  // Relationship with MonthlyPayments
 
     @Column('decimal', { precision: 12, scale: 2 })
     outstandingBalance: number;  
+
+    @Column('date', {nullable: true})
+    dueDate?: Date;  // Date when the loan is due
+
+    @Column('date', {nullable: true})
+    approvalDate?: Date;  // Date when the loan is approved
 
     @Column({
         type: 'enum',
@@ -55,7 +61,7 @@ export class Loan {
     @UpdateDateColumn()
     updatedAt: Date; 
 
-    @ManyToOne(()=> Borrower, (borrower) => borrower.borrowerId)
+    @ManyToOne(()=> Borrower, (borrower) => borrower.loans)
     @JoinColumn({name: 'borrowerId'})
     borrowerId: Borrower; // Relationship with Borrower
 }
