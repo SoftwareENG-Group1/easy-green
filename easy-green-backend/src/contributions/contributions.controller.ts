@@ -62,19 +62,19 @@ export class ContributionsController {
   }
 
   // Adjust the monthly contribution amount
-  @Patch(':id')
-  @ApiOperation({ summary: 'Adjust the agreed monthly contribution amount' })
-  @ApiParam({ name: 'id', type: String, description: 'Contribution ID' })
-  @ApiBody({ type: UpdateContributionsDto })
-  @ApiResponse({
-    status: 200,
-    description: 'The contribution has been successfully adjusted.',
-    type: Contributions,
-  })
-  async adjust(
-    @Param('id') id: string,
-    @Body() updateContributionsDto: { newAgreedAmount: number },
-  ): Promise<Contributions> {
-    return this.contributionsService.adjustMonthlyContribution(id, updateContributionsDto.newAgreedAmount);
-  }
+  // @Patch(':id')
+  // @ApiOperation({ summary: 'Adjust the agreed monthly contribution amount' })
+  // @ApiParam({ name: 'id', type: String, description: 'Contribution ID' })
+  // @ApiBody({ type: UpdateContributionsDto })
+  // @ApiResponse({
+  //   status: 200,
+  //   description: 'The contribution has been successfully adjusted.',
+  //   type: Contributions,
+  // })
+  // async adjust(
+  //   @Param('id') id: string,
+  //   @Body() updateContributionsDto: { newAgreedAmount: number },
+  // ): Promise<Contributions> {
+  //   return this.contributionsService.adjustMonthlyContribution(id, updateContributionsDto.newAgreedAmount);
+  // }
 }

@@ -12,13 +12,16 @@ export class CreateContributionsDto {
 
     @IsDecimal()
     @IsPositive()
-    agreedMonthlyAmount: number;
+    agreedAmountToSave: number;
 
     @IsDecimal()
     totalAmount: number;
 
     @IsDateString()
     startDate: string;
+
+    @IsDateString()
+    endDate: string;
 
     @IsDecimal()
     interestRate: number;

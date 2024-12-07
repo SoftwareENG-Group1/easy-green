@@ -23,8 +23,11 @@ export class Contributions {
     @Column('decimal', { precision: 12, scale: 2 })
     totalAmount: number;
 
+    @Column('decimal', { precision: 12, scale: 2 })
+    totalAmountPaid: number;
+
     @Column("decimal", { precision: 12, scale: 2 })
-    agreedMonthlyAmount: number; 
+    agreedAmountToSave: number; 
   
     @Column({
         type: 'enum',
@@ -35,6 +38,9 @@ export class Contributions {
 
     @Column('date', {nullable: true})
     startDate: Date;
+
+    @Column('date', {nullable: true})
+    endDate: Date;
 
     @OneToMany(()=> MonthlyContributions, (monthlyContributions) => monthlyContributions.contributions, {cascade: true})
     monthlyContributions: MonthlyContributions[];
