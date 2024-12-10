@@ -5,7 +5,7 @@ import AdminDashboard from "../pages/dashboard/admin/index";
 import AdminClient from "../pages/dashboard/admin/client";
 import AdminCalendar from "../pages/dashboard/admin/calendar";
 import Layout from "../components/layout";
-import Form from "../pages/auth/MultiStepForm";
+import Form from "../pages/auth/create-account";
 
 const AppRoutes = () => (
   <BrowserRouter>

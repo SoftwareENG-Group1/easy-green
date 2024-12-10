@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import {
   Table,
   TableBody,
@@ -8,37 +9,35 @@ import {
   TableContainer,
   Paper,
   TextField,
+  CircularProgress,
+  Alert,
 } from "@mui/material";
 import AdminClientModal from "./components/modal";
-
-interface Client {
-  client: string;
-  email: string;
-  loanId: string;
-  loanAmount: string;
-  balance: string;
-  paymentDate: string;
-  status: string;
-}
+import { Client } from "./components/interfaces";
 
 const AdminClient = () => {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [clients] = useState<Client[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const rows: Client[] = Array.from({ length: 100 }, (_, index) => ({
-    client: `Munachim Arosabo ${index + 1}`,
-    email: `munachim${index + 1}@example.com`,
-    loanId: `L${1234 + index}`,
-    loanAmount: `${(550000 + index * 10000).toLocaleString()}`,
-    balance: `${(25500 + index * 5000).toLocaleString()}`,
-    paymentDate: `12-11-2024`,
-    status: index % 5 === 0 ? "Inactive" : "Active",
-  }));
 
-  const handleRowClick = (client: Client) => {
-    setSelectedClient(client);
-    setOpen(true);
+  
+  
+
+  const handleRowClick = async (client: Client) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`/borrower/${client.loanId}`);
+      setSelectedClient(response.data);
+      setOpen(true);
+    } catch (err) {
+      setError(`Failed to fetch borrower details. (${err})`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleClose = () => {
@@ -50,7 +49,7 @@ const AdminClient = () => {
     setSearchQuery(event.target.value);
   };
 
-  const filteredRows = rows.filter((row) =>
+  const filteredRows = clients.filter((row) =>
     row.client.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -66,6 +65,10 @@ const AdminClient = () => {
         onChange={handleSearch}
       />
 
+      {/* Error and Loading State */}
+      {loading && <CircularProgress style={{ margin: "0 auto" }} />}
+      {error && <Alert severity="error">{error}</Alert>}
+
       {/* Table */}
       <TableContainer component={Paper} sx={{ borderRadius: 4 }}>
         <Table>
@@ -80,6 +83,9 @@ const AdminClient = () => {
             <TableRow>
               <TableCell style={{ color: "white", fontSize: "18px" }}>
                 Client Name
+              </TableCell>
+              <TableCell style={{ color: "white", fontSize: "18px" }}>
+                Email
               </TableCell>
               <TableCell style={{ color: "white", fontSize: "18px" }}>
                 Loan Amount
@@ -108,6 +114,9 @@ const AdminClient = () => {
                     {row.client}
                   </TableCell>
                   <TableCell style={{ color: "#0a440a", fontSize: "18px" }}>
+                    {row.email}
+                  </TableCell>
+                  <TableCell style={{ color: "#0a440a", fontSize: "18px" }}>
                     {row.loanAmount}
                   </TableCell>
                   <TableCell style={{ color: "#0a440a", fontSize: "18px" }}>
@@ -128,7 +137,7 @@ const AdminClient = () => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={5} style={{ textAlign: "center", color: "gray" }}>
+                <TableCell colSpan={6} style={{ textAlign: "center", color: "gray" }}>
                   No results found
                 </TableCell>
               </TableRow>

@@ -1,21 +1,6 @@
 import React from "react";
 import { Modal, Box, Avatar, Typography, Button, Tab, Tabs, TableCell, Paper, Table, TableBody, TableContainer, TableHead, TableRow } from "@mui/material";
-
-interface Client {
-  client: string;
-  email: string;
-  loanId: string;
-  loanAmount: string;
-  balance: string;
-  paymentDate: string;
-  status: string;
-}
-
-interface AdminClientModalProps {
-  open: boolean;
-  onClose: () => void;
-  client: Client | null;
-}
+import { AdminClientModalProps } from "./interfaces";
 
 const AdminClientModal: React.FC<AdminClientModalProps> = ({
   open,
@@ -28,22 +13,7 @@ const AdminClientModal: React.FC<AdminClientModalProps> = ({
     setActiveTab(newValue);
   };
 
-  if (!client) return null; 
-
-
-  const transactionHistory = Array.from({ length: 13 }, (_, index) => ({
-    id: `T${index + 1}`,
-    date: `${index + 1}-09-2024`,
-    amount: `${(1000 + index * 500).toLocaleString()}`,
-    status: index % 2 === 0 ? "Success" : "Pending",
-  }));
-
-  const loanHistory = Array.from({ length: 5 }, (_, index) => ({
-    loanId: `L${5678 + index}`,
-    amount: `${(50000 + index * 2000).toLocaleString()}`,
-    dateIssued: `${index + 5}-09-2024`,
-    status: index % 2 === 0 ? "Completed" : "Ongoing",
-  }));
+  if (!client) return null;
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -63,16 +33,16 @@ const AdminClientModal: React.FC<AdminClientModalProps> = ({
         }}
       >
         {/* Top Section */}
-        <div className="flex items-center gap-4 text-black ">
+        <div className="flex items-center gap-4 text-black">
           <Avatar sx={{ width: 80, height: 80 }} />
           <div>
-          <Typography variant="h5" sx={{ marginTop: 2 }}>
-            {client.client}
-          </Typography>
-          <Typography variant="body2" sx={{ marginTop: 1 }}>
-            Customer ID: {client.loanId}
-          </Typography>
-        </div>
+            <Typography variant="h5" sx={{ marginTop: 2 }}>
+              {client.client}
+            </Typography>
+            <Typography variant="body2" sx={{ marginTop: 1 }}>
+              Customer ID: {client.loanId}
+            </Typography>
+          </div>
         </div>
 
         {/* Tabs */}
@@ -91,14 +61,14 @@ const AdminClientModal: React.FC<AdminClientModalProps> = ({
         </Tabs>
 
         {/* Tab Content */}
-        <div className="mt-4 text-black" >
+        <div className="mt-4 text-black">
           {activeTab === 0 && (
             <div>
               <Typography variant="h6" sx={{ marginTop: 1 }}>
                 Email: {client.email}
               </Typography>
               <Typography variant="h6" sx={{ marginTop: 1 }}>
-                Loan ID: {client.loanId}
+                Loan Amount: {client.loanAmount}
               </Typography>
               <Typography variant="h6" sx={{ marginTop: 1 }}>
                 Status: {client.status}
@@ -106,65 +76,64 @@ const AdminClientModal: React.FC<AdminClientModalProps> = ({
             </div>
           )}
           {activeTab === 1 && (
-         <TableContainer component={Paper} style={{ marginTop: "16px",maxHeight: "56vh", }}>
-            <Table>
-              <TableHead style={{ backgroundColor: "#0a440a" }}>
-                <TableRow>
-                  <TableCell style={{ color: "white" }}>Transaction ID</TableCell>
-                  <TableCell style={{ color: "white" }}>Date</TableCell>
-                  <TableCell style={{ color: "white" }}>Amount</TableCell>
-                  <TableCell style={{ color: "white" }}>Status</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {transactionHistory.map((txn) => (
-                  <TableRow key={txn.id}>
-                    <TableCell>{txn.id}</TableCell>
-                    <TableCell>{txn.date}</TableCell>
-                    <TableCell>{txn.amount}</TableCell>
-                    <TableCell
-                      style={{
-                        color: txn.status === "Success" ? "green" : "orange",
-                      }}
-                    >
-                      {txn.status}
-                    </TableCell>
+            <TableContainer component={Paper} sx={{ maxHeight: "56vh", marginTop: 2 }}>
+              <Table>
+                <TableHead sx={{ backgroundColor: "#0a440a" }}>
+                  <TableRow>
+                    <TableCell style={{ color: "white" }}>Transaction ID</TableCell>
+                    <TableCell style={{ color: "white" }}>Date</TableCell>
+                    <TableCell style={{ color: "white" }}>Amount</TableCell>
+                    <TableCell style={{ color: "white" }}>Status</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
-
-        {activeTab === 2 && (
-          <TableContainer component={Paper} style={{ marginTop: "16px" ,maxHeight: "56vh",}}>
-            <Table>
-              <TableHead style={{ backgroundColor: "#0a440a" }}>
-                <TableRow>
-                  <TableCell style={{ color: "white" }}>Loan ID</TableCell>
-                  <TableCell style={{ color: "white" }}>Amount</TableCell>
-                  <TableCell style={{ color: "white" }}>Date Issued</TableCell>
-                  <TableCell style={{ color: "white" }}>Status</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {loanHistory.map((loan) => (
-                  <TableRow key={loan.loanId}>
-                    <TableCell>{loan.loanId}</TableCell>
-                    <TableCell>{loan.amount}</TableCell>
-                    <TableCell>{loan.dateIssued}</TableCell>
-                    <TableCell
-                      style={{
-                        color: loan.status === "Completed" ? "green" : "blue",
-                      }}
-                    >
-                      {loan.status}
-                    </TableCell>
+                </TableHead>
+                <TableBody>
+                  {/* {client.transactionHistory.map((txn) => (
+                    <TableRow key={txn.id}>
+                      <TableCell>{txn.id}</TableCell>
+                      <TableCell>{txn.date}</TableCell>
+                      <TableCell>{txn.amount}</TableCell>
+                      <TableCell
+                        style={{
+                          color: txn.status === "Success" ? "green" : "orange",
+                        }}
+                      >
+                        {txn.status}
+                      </TableCell>
+                    </TableRow>
+                  ))} */}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+          {activeTab === 2 && (
+            <TableContainer component={Paper} sx={{ maxHeight: "56vh", marginTop: 2 }}>
+              <Table>
+                <TableHead sx={{ backgroundColor: "#0a440a" }}>
+                  <TableRow>
+                    <TableCell style={{ color: "white" }}>Loan ID</TableCell>
+                    <TableCell style={{ color: "white" }}>Amount</TableCell>
+                    <TableCell style={{ color: "white" }}>Date Issued</TableCell>
+                    <TableCell style={{ color: "white" }}>Status</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {/* {client.loanHistory.map((loan) => (
+                    <TableRow key={loan.loanId}>
+                      <TableCell>{loan.loanId}</TableCell>
+                      <TableCell>{loan.amount}</TableCell>
+                      <TableCell>{loan.dateIssued}</TableCell>
+                      <TableCell
+                        style={{
+                          color: loan.status === "Completed" ? "green" : "blue",
+                        }}
+                      >
+                        {loan.status}
+                      </TableCell>
+                    </TableRow>
+                  ))} */}
+                </TableBody>
+              </Table>
+            </TableContainer>
           )}
         </div>
 

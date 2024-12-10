@@ -26,3 +26,4 @@ export const createBorrower = async (data: Record<string, unknown>, userId: unkn
       }
     }
   };
+

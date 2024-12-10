@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import CloudUploadRoundedIcon from "@mui/icons-material/CloudUploadRounded";
 import { z } from "zod";
-import { UserSchema } from "./validationSchema";
+import { UserSchema } from "../validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import Logo from "../../assets/images/Easy-Green.png";
+import Logo from "../../../assets/images/Easy-Green.png";
 import { toast } from "react-toastify";
-import Modal from "./create-account/component/modal";
-import { createUser, createBorrower } from "./create-account/component/api";
+import Modal from "./component/modal";
+import { createUser, createBorrower } from "./component/api";
 
 type Inputs = z.infer<typeof UserSchema>;
 
