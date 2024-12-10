@@ -1,4 +1,5 @@
-import { IsString, IsOptional,  IsNotEmpty, IsUUID, IsDecimal, IsEnum, IsDateString } from 'class-validator';
+/* eslint-disable prettier/prettier */
+import { IsString, IsOptional,  IsNotEmpty, IsUUID, IsDecimal, IsEnum, IsDateString, isNotEmpty } from 'class-validator';
 import { TransactionPurpose, TransactionType } from '../entity/transactions.entity';
 
 export class CreateTransactionsDto {
@@ -25,4 +26,7 @@ export class CreateTransactionsDto {
     @IsUUID()
     @IsOptional() // Contribution ID is optional if the transaction is for a loan
     contributionId?: string;
+
+    @IsNotEmpty()
+    borrowerId: number;
 }

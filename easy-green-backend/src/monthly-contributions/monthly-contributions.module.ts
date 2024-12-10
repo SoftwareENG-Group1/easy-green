@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { MonthlyContributionsService } from './monthly-contributions.service';
 import { MonthlyContributionsController } from './monthly-contributions.controller';

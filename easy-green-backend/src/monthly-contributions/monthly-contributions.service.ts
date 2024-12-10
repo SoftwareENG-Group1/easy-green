@@ -61,6 +61,10 @@ export class MonthlyContributionsService {
             month.status = month.amountPaid === month.amountDue? MonthlyContributionStatus.Paid
             : MonthlyContributionStatus.Pending;
 
+            if(month.status === MonthlyContributionStatus.Paid){
+              month.paymentDate = new Date()
+            }
+
             await this.monthlyContributionsRepository.save(month);
           }
         }

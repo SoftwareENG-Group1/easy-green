@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MonthlyContributions } from 'src/monthly-contributions/entity/monthly-contributions.entity';
+import { MonthlyContributions, MonthlyContributionStatus } from 'src/monthly-contributions/entity/monthly-contributions.entity';
 import { Repository } from 'typeorm';
 import { CreateContributionsDto } from './dto/create-contributions.dto';
 import { Contributions, ContributionStatus } from './entity/contributions.entity';
@@ -28,15 +28,24 @@ export class ContributionsService {
         
         const contribution = this.contributionsRepository.create(createContributionsDto);
 
-        // contribution.totalAmount = 0; 
+        contribution.totalAmountPaid = 0; 
         contribution.status = ContributionStatus.Active; 
         contribution.startDate = new Date(createContributionsDto.startDate); 
         contribution.endDate = new Date(createContributionsDto.endDate);
-        contribution.interestRate = createContributionsDto.interestRate; 
+        contribution.interestRate = 5; 
         contribution.agreedAmountToSave = createContributionsDto.agreedAmountToSave; 
+        contribution.totalAmountLeft = createContributionsDto.agreedAmountToSave
+        contribution.borrower = borrower
 
         const months = this.calculateMonths(createContributionsDto.startDate, createContributionsDto.endDate) ;
-        contribution.monthlyContributions = this.generateMonthlyContributions(createContributionsDto, months)
+        const monthlyContributions = this.generateMonthlyContributions(createContributionsDto, months);
+        monthlyContributions.forEach((monthlyContribution) => {
+          monthlyContribution.contributions = contribution;
+        })
+
+        await this.monthlyContributionsRepository.save(monthlyContributions);
+
+        contribution.monthlyContributions = monthlyContributions
         const savedContribution = await this.contributionsRepository.save(contribution);
         return savedContribution;
         }
@@ -57,7 +66,11 @@ export class ContributionsService {
 
             const contribution = new MonthlyContributions();
             contribution.amountDue = monthlyAmount;
+            contribution.amountPaid = 0;
+            contribution.status = MonthlyContributionStatus.Pending;
+            contribution.paymentDate = null;
             contribution.dueDate = dueDate;
+            contribution.transactions = [];
             contributions.push(contribution)
           }
           return contributions;

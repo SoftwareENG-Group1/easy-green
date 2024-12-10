@@ -21,7 +21,7 @@ export class Contributions {
     description?: string;
 
     @Column('decimal', { precision: 12, scale: 2 })
-    totalAmount: number;
+    totalAmountLeft: number;
 
     @Column('decimal', { precision: 12, scale: 2 })
     totalAmountPaid: number;
