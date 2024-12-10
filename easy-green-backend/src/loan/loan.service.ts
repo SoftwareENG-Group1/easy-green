@@ -171,6 +171,7 @@ export class LoanService {
         const dueDate = new Date(currentDate);
         dueDate.setMonth(dueDate.getMonth() + loan.amortizationPeriod); // set the due date to the current date + the amortization period in months
         loan.dueDate = dueDate;
+        
         await this.loanRepository.save(loan);
         return loan;
     }

@@ -11,14 +11,6 @@ export class CreateMonthlyPaymentsDto {
 
     @IsNumber({ maxDecimalPlaces: 2 })
     @IsNotEmpty()
-    principal: number;
-
-    @IsNumber({ maxDecimalPlaces: 2 })
-    @IsNotEmpty()
-    monthlyInterestRate: number;
-
-    @IsNumber({ maxDecimalPlaces: 2 })
-    @IsNotEmpty()
     amountPaid: number;
 
     @IsDate()
