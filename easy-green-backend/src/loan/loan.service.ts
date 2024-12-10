@@ -27,11 +27,12 @@ export class LoanService {
         })
 
         // Get all the debit transactions of the borrower
-        const usersDebitTransactions =  borrower.transactions.filter(transaction=> transaction.type === 'Debit');
+        const usersDebitTransactions = borrower?.transactions?.filter((transaction) => transaction.type === 'Debit') ?? [];
         if(usersDebitTransactions.length === 0){
             // User is a new borrower and has not made any transactions either contributions or loan payments
             // make maximum loan amount 50% of his/her monthly salary per anumn
-            const maxLoanAmount = borrower.monthlyIncome * 0.5;
+            const monthlyIncomePerAnnum = borrower.monthlyIncome * 12;
+            const maxLoanAmount = monthlyIncomePerAnnum * 0.5;
             if(createLoanDto.loanAmount > maxLoanAmount){
                 throw new BadRequestException('Loan amount exceeds the maximum loan amount, Users maximum loan amount is ' + maxLoanAmount);
             }
@@ -50,7 +51,7 @@ export class LoanService {
         }
          // Check if the borrower has an active loan
         const loanExists = await this.loanRepository.findOne({
-            where: {borrowerId: borrower, status: LoanStatus.Active}
+            where: {borrowerId: borrower.borrowerId, status: LoanStatus.Active}
         })
 
         if (loanExists) {
@@ -74,7 +75,7 @@ export class LoanService {
             status: LoanStatus.Pending, // loans are pending until they are approved by admin
             createdAt: new Date(),
             updatedAt: new Date(),
-            borrowerId: borrower,
+            borrowerId: borrower.borrowerId,
             monthlyPayments: [],
             dueDate: new Date(createLoanDto.startDate), // the due date is the same as the start date at the beginning until the loan is approved
             outstandingBalance: createLoanDto.loanAmount, // the outstanding balance is the same as the loan amount at the beginning
@@ -95,7 +96,8 @@ export class LoanService {
         if(usersDebitTransactions.length === 0){
             // User is a new borrower and has not made any transactions either contributions or loan payments
             // make maximum loan amount 50% of his/her monthly salary per anumn
-            const maxLoanAmount = borrower.monthlyIncome * 0.5;
+            const monthlyIncomePerAnnum = borrower.monthlyIncome * 12;
+            const maxLoanAmount = monthlyIncomePerAnnum * 0.5;
             return maxLoanAmount;
         }else{
             // User is not a new borrower and has made transactions either contributions or loan payments
@@ -108,7 +110,7 @@ export class LoanService {
 
     async findall(): Promise<Loan[]> {
         return this.loanRepository.find({
-            relations: ['monthlyPayments', 'borrowerId'],
+            relations: ['monthlyPayments', 'borrower'],
         });
     }
 
@@ -116,8 +118,8 @@ export class LoanService {
 
         const borrower = await this.borrowerRepository.find({ where: { borrowerId: borrowerId } });
         const loans = await this.loanRepository.find({
-            where: { borrowerId: {borrowerId} },
-            relations: ['monthlyPayments', 'borrowerId']
+            where: { borrowerId: borrowerId },
+            relations: ['monthlyPayments', 'borrower']
         });
         if (loans.length === 0) {
             throw new NotFoundException('No loans found for borrower');
@@ -132,7 +134,7 @@ export class LoanService {
     async findOneById(loanId: string): Promise<Loan> {
         const loan = await this.loanRepository.findOne({
             where: { loanId },
-            relations: ['monthlyPayments', 'borrowerId'],
+            relations: ['monthlyPayments', 'borrower'],
         });
 
         if (!loan) {
@@ -148,8 +150,8 @@ export class LoanService {
             throw new NotFoundException('Borrower not found');
         }
         const loan = await this.loanRepository.findOne({
-            where: { borrowerId: borrower, loanId: loanId },
-            relations: ['monthlyPayments', 'borrowerId'],
+            where: { borrowerId: borrower.borrowerId, loanId: loanId },
+            relations: ['monthlyPayments', 'borrower'],
         });
 
         if (!loan) {

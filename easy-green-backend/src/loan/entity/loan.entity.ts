@@ -63,5 +63,8 @@ export class Loan {
 
     @ManyToOne(()=> Borrower, (borrower) => borrower.loans)
     @JoinColumn({name: 'borrowerId'})
-    borrowerId: Borrower; // Relationship with Borrower
+    borrower: Borrower; // Relationship with Borrower
+
+    @Column()
+    borrowerId: number;  // Borrower ID
 }

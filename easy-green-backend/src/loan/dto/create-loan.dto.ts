@@ -48,7 +48,6 @@ export class CreateLoanDto {
     @IsNotEmpty()
     status: LoanStatus;
 
-    @IsUUID()
     @IsNotEmpty()
     borrowerId: number; // when creating a loan the borrowerId must be passed
 }

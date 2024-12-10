@@ -37,10 +37,20 @@ export class Borrower {
     @Column({ type: 'blob', nullable: true })
     driversLicense?: Buffer;
 
-    @Column('json')
-    @ValidateNested()
-    @Type(() => AddressDto)
-    address: AddressDto;
+    @Column({ length: 50 })
+    street: string;
+
+    @Column({ length: 50 })
+    city: string;
+
+    @Column({ length: 50 })
+    state: string;
+
+    @Column({ length: 50 })
+    country: string;
+
+    @Column({ length: 50, nullable: true })
+    postalCode?: string;
 
     @Column({
         type: 'enum',
@@ -49,14 +59,23 @@ export class Borrower {
     })
     employmentStatus: EmploymentStatus;
 
-    @Column('json')
-    nextOfKin: {
-        firstName: string;
-        lastName: string;
-        phoneNumber: string;
-        relationship: string;
-        houseAddress: AddressDto;
-    }
+    @Column({ length: 50 })
+    nextOfKinFirstName: string;
+
+    @Column({ length: 50 })
+    nextOfKinLastName: string;
+
+    @Column({ length: 15 })
+    nextOfKinPhoneNumber: string;
+
+    @Column({ length: 50 })
+    nextOfKinRelationship: string;
+
+    @Column({length: 100})
+    nextOfKinStreet: string;
+
+    @Column({length: 100})
+    nextOfKinCountry: string;
 
     @Column({ length: 50, nullable: true })
     companyName?: string;
@@ -82,7 +101,7 @@ export class Borrower {
     @OneToMany(() => Transactions, (transactions) => transactions.borrower)
     transactions: Transactions[];
 
-    @OneToMany(() => Loan, (loan) => loan.borrowerId, { cascade: true })
+    @OneToMany(() => Loan, (loan) => loan.borrower, { cascade: true })
     loans?: Loan[];
 
     @OneToMany(() => Contributions, (contributions) => contributions.borrower, { cascade: true })

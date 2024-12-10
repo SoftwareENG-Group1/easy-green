@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { BorrowerService } from './borrower.service';
 import { CreateBorrowerDto } from './dto/create-borrower.dto';
 import { Borrower } from './entity/borrower.entity';
@@ -22,4 +22,15 @@ export class BorrowerController {
       ): Promise<Borrower> {
         return this.borrowerService.create(createBorrowerDto, userId);
       }
+
+    @Get()
+    @ApiOperation({ summary: 'Get All Borrowers' })
+    @ApiResponse({
+        status: 200,
+        description: 'List of all borrowers.',
+        type: [Borrower]
+    })
+    async findAll(): Promise<Borrower[]> {
+        return this.borrowerService.findAll();
+    }
 }

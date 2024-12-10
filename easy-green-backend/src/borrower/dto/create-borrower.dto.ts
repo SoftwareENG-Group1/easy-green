@@ -56,6 +56,17 @@ export class NextOfKinDto {
     houseAddress: AddressDto;
 }
 
+export class NextOfKinAddress {
+    @IsString()
+    @IsNotEmpty()
+    country: string;
+
+    @IsString()
+    @IsNotEmpty()
+    street: string;
+
+}
+
 export class CreateBorrowerDto {
     @IsNotEmpty()
     userId: number; // creates the user then get the userId to create the borrower
