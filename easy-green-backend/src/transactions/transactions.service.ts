@@ -7,6 +7,7 @@ import { Borrower } from 'src/borrower/entity/borrower.entity';
 import { CreateTransactionsDto } from './dto/create-transactions.dto';
 import { ContributionsService } from 'src/contributions/contributions.service';
 import { MonthlyContributionsService } from 'src/monthly-contributions/monthly-contributions.service';
+import { ContributionStatus } from 'src/contributions/entity/contributions.entity';
 
 @Injectable()
 export class TransactionsService {
@@ -37,19 +38,24 @@ export class TransactionsService {
             if (!contribution) {
                 throw new BadRequestException(`Contribution with ID ${contributionId} not found`);
             }
-            const transaction = this.transactionsRepository.create({
-                amountPaid,
-                type,
-                purpose,
-                transactionDate: transactionDate|| new Date(),
-                borrower,
-            });
+            if (contribution.status === ContributionStatus.Terminated){
+                throw new BadRequestException(`Contribution with id ${contributionId} is terminated`)
+            }
+            
 
-            const savedTransaction = await this.transactionsRepository.save(transaction);
+            
             await this.monthlyContributionsService.allocatePayment(contributionId, amountPaid);
 
-            return savedTransaction
+            
         }
-
+        const transaction = this.transactionsRepository.create({
+            amountPaid,
+            type,
+            purpose,
+            transactionDate: transactionDate|| new Date(),
+            borrower,
+        });
+        const savedTransaction = await this.transactionsRepository.save(transaction);
+        return savedTransaction
     }
 }

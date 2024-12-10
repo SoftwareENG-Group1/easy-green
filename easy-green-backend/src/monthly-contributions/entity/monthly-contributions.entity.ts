@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinTable } from "typeorm";
 import { Contributions } from "src/contributions/entity/contributions.entity";
 import { Transactions } from "src/transactions/entity/transactions.entity";
@@ -33,7 +34,7 @@ export class MonthlyContributions {
     @OneToMany(()=> Transactions, (transaction) => transaction.monthlyContributions, {cascade: true})
     transactions: Transactions[];
 
-    @Column('date')
+    @Column('date', {nullable: true})
     paymentDate: Date;
 
     @Column("date")

@@ -61,6 +61,14 @@ export class ContributionsController {
     return this.contributionsService.findByBorrowerId(borrowerId);
   }
 
+  @ApiOperation({ summary: 'Cancel a contribution and set it as inactive' })
+    @ApiParam({ name: 'id', description: 'ID of the contribution to cancel' })
+    @ApiResponse({ status: 200, description: 'Contribution successfully set as inactive' })
+    @ApiResponse({ status: 404, description: 'Contribution not found' })
+    @Patch(':id/cancel')
+    async cancelContribution(@Param('id') id: string) {
+        return this.contributionsService.cancelContribution(id);
+    }
   // Adjust the monthly contribution amount
   // @Patch(':id')
   // @ApiOperation({ summary: 'Adjust the agreed monthly contribution amount' })

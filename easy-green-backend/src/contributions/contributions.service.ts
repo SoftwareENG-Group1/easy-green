@@ -89,6 +89,45 @@ export class ContributionsService {
         
         //     return contribution;
         //   }
+
+        async cancelContribution(contributionsId: string): Promise<Contributions> {
+          // Fetch the contribution
+          const contribution = await this.contributionsRepository.findOne({
+              where: { contributionsId },
+              relations: ['monthlyContributions'], 
+          });
+      
+          if (!contribution) {
+              throw new NotFoundException('Contribution not found');
+          }
+      
+          if (contribution.status !== ContributionStatus.Active) {
+              throw new Error('Contribution is not active and cannot be canceled');
+          }
+      
+          // Update contribution status to Terminated
+          contribution.status = ContributionStatus.Terminated;
+      
+          // Update associated MonthlyContributions to reflect cancellation
+          contribution.monthlyContributions.forEach((monthly) => {
+              if (monthly.status === MonthlyContributionStatus.Pending) {
+                  monthly.status = MonthlyContributionStatus.Defaulted; 
+              }
+          });
+      
+          
+          await this.monthlyContributionsRepository.save(contribution.monthlyContributions);
+      
+          
+          contribution.totalAmountLeft = 0;
+          contribution.totalAmountPaid = 0;
+      
+          
+          const updatedContribution = await this.contributionsRepository.save(contribution);
+      
+          return updatedContribution;
+      }
+      
           async findOneById(contributionsId: string): Promise<Contributions> {
             const contribution = await this.contributionsRepository.findOne({
               where: { contributionsId },
