@@ -22,7 +22,7 @@ export class Loan {
     description?: string;  
 
     @Column('decimal', { precision: 12, scale: 2 })
-    loanAmount: number;  
+    loanAmount: number;  // total amount needed as loan
 
     @Column('int')
     amortizationPeriod: number;  // Period (in months) over which the loan is repaid
@@ -41,6 +41,9 @@ export class Loan {
 
     @Column('decimal', { precision: 12, scale: 2 })
     outstandingBalance: number;  
+
+    @Column('decimal', { precision: 12, scale: 2, nullable: true})
+    amountToBePaidMonthly?: number;  // Amount to be paid monthly
 
     @Column('date', {nullable: true})
     dueDate?: Date;  // Date when the loan is due

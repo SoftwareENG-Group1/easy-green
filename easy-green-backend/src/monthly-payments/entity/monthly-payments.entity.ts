@@ -17,7 +17,10 @@ export class MonthlyPayment {
     loan: Loan;  
 
     @Column('decimal', { precision: 12, scale: 2 })
-    principal: number // Amortization principle per month
+    principal: number // Amortization principle per month in dollars
+
+    @Column('decimal', { precision: 12, scale: 2 })
+    interest: number;  // Interest per month in dollars
 
     @Column({
         type: 'enum',
