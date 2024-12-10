@@ -6,6 +6,10 @@ import AdminClient from "../pages/dashboard/admin/client";
 import AdminCalendar from "../pages/dashboard/admin/calendar";
 import Layout from "../components/layout";
 import Form from "../pages/auth/create-account";
+import Dashboard from "../pages/dashboard/admin/Dashboard";
+import Login from "../pages/Login";
+import ApplyForLoan from "../pages/loan/components/LoanApplication";
+import UserDashboard from "../pages/dashboard/customer/UserDashboard";
 
 const AppRoutes = () => (
   <BrowserRouter>
@@ -13,6 +17,11 @@ const AppRoutes = () => (
     {/* Routes without Sidebar */}
     <Route path="/" element={<HomePage />} />
     <Route path="/create-account" element={<Form />} />
+    <Route path="/" element={<HomePage />} />
+			<Route path="/dashboard" element={<Dashboard />} />
+			<Route path="/login" element={<Login />} />
+			<Route path="/apply-for-loan" element={<ApplyForLoan />} />
+			<Route path="/user-dashboard" element={<UserDashboard />} />
 
     {/* Admin Routes with Sidebar */}
     <Route path="/admin" element={<Layout />}>

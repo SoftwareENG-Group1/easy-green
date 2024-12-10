@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entity/user.entity';
@@ -27,5 +28,8 @@ export class UserService {
         // remove password from the response
         const { password, ...userWithoutPassword } = savedUser;
         return userWithoutPassword;
+    }
+    async findOne(email: string): Promise<User | undefined>{
+        return this.userRepository.findOne({where: { email }});
     }
 }
