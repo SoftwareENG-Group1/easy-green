@@ -6,23 +6,29 @@ import AdminClient from "../pages/dashboard/admin/client";
 import AdminCalendar from "../pages/dashboard/admin/calendar";
 import Layout from "../components/layout";
 import Form from "../pages/auth/create-account";
-import Dashboard from "../pages/dashboard/admin/Dashboard";
-import Login from "../pages/Login";
+import Login from "../pages/auth/Login";
 import ApplyForLoan from "../pages/loan/components/LoanApplication";
 import UserDashboard from "../pages/dashboard/customer/UserDashboard";
+import DashboardLayout from "../pages/dashboard/customer/Layout";
+import LoanDashboard from "../pages/dashboard/customer/components_old/LoanDashboard";
+import PaymentHistory from "../pages/dashboard/customer/PaymentHistory";
+import ProfileSettings from "../pages/dashboard/customer/ProfileOverview";
 
 const AppRoutes = () => (
   <BrowserRouter>
   <Routes>
     {/* Routes without Sidebar */}
-    <Route path="/" element={<HomePage />} />
     <Route path="/create-account" element={<Form />} />
     <Route path="/" element={<HomePage />} />
-			<Route path="/dashboard" element={<Dashboard />} />
 			<Route path="/login" element={<Login />} />
 			<Route path="/apply-for-loan" element={<ApplyForLoan />} />
-			<Route path="/user-dashboard" element={<UserDashboard />} />
-
+  {/* Client Routes with Sidebar */}
+      <Route path="/client" element={<DashboardLayout />}>
+      <Route index element={<UserDashboard />} /> 
+      <Route path="settings" element={<ProfileSettings />} />
+      <Route path="loan" element={<LoanDashboard />} />
+      <Route path="payment-history" element={<PaymentHistory />} />
+      </Route>
     {/* Admin Routes with Sidebar */}
     <Route path="/admin" element={<Layout />}>
       <Route index element={<AdminDashboard />} /> 

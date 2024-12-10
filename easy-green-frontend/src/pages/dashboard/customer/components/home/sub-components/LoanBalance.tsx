@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { pxToViewport } from "../../../../../../utils/viewport";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 export const LoanBalance = () => {
 	const [containerWidth, setContainerWidth] = useState(0);
@@ -9,6 +9,10 @@ export const LoanBalance = () => {
 	const [marginBottomTitle, setMarginBottomTitle] = useState(0);
 	const [marginBottomAmount, setMarginBottomAmount] = useState(0);
     const [marginBottom, setMarginBottom] = useState(0);
+	const [loanBalance] = useState({
+		paid: 3000,
+		total: 10000,
+	  });
 
 	useEffect(() => {
 		const calculateViewportValues = () => {
@@ -62,12 +66,18 @@ export const LoanBalance = () => {
 					marginBottom: `${marginBottomAmount}vh`,
 				}}
 			>
-				$15000/$52,500
+				${loanBalance.paid}/${loanBalance.total}
 			</p>
 			<div className="flex justify-end">
-				<p className="font-roboto font-semibold text-[16px] text-black ">60%</p>
+				<p className="font-roboto font-semibold text-[16px] text-black ">{(loanBalance.paid / loanBalance.total) * 100}%</p>
 			</div>
-			<ProgressBar percentage={60} />
+			<ProgressBar
+			completed={(loanBalance.paid / loanBalance.total) * 100} 
+			height="20px"
+			bgColor="#0F5015"
+			borderRadius="8px"
+			isLabelVisible={false}
+			/>
 		</div>
 	);
 };

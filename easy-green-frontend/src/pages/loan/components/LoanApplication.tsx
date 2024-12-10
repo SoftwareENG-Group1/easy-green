@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import EasyGreenLogo from "/Users/jeffreybenson/Documents/React/React Project/loan-amortization-frontend/src/assets/images/logo.svg"; // adjust this path if necessary
-import rightArrow from "/Users/jeffreybenson/Documents/React/React Project/easy-green/easy-green-frontend/src/assets/icons/arrow-right.svg";
-import menu from "/Users/jeffreybenson/Documents/React/React Project/easy-green/easy-green-frontend/src/assets/icons/Menu.svg";
+import EasyGreenLogo from "../../../assets/images/Easy-Green.png"; 
+import rightArrow from "../../../assets/icons/arrow-right.svg";
+import menu from "../../../assets/icons/Menu.svg";
 const ApplyForLoan = () => {
-	const [salaryAmount, setSalaryAmount] = useState("");
+	const [salaryAmount, setSalaryAmount] = useState("")
 	const [salaryPeriod, setSalaryPeriod] = useState("");
 	const [loanPurpose, setLoanPurpose] = useState("");
 	const [loanAmount, setLoanAmount] = useState("");
@@ -38,7 +38,7 @@ const ApplyForLoan = () => {
 	return (
 		<div className="flex min-h-screen">
 			{/* Left side: Loan Application Form */}
-			<div className="flex flex-col justify-center items-center w-full sm:w-2/3 pl-8 bg-white h-screen">
+			<div className="flex flex-col items-center justify-center w-full h-screen pl-8 bg-white sm:w-2/3">
 				<div className="h-[50px]"></div>
 				<div className="absolute top-[50px] left-4 ">
 					<button className="text-gray-800">
@@ -54,12 +54,12 @@ const ApplyForLoan = () => {
 					Apply For Loan
 				</h2>
 
-				{error && <div className="text-red-500 mb-4">{error}</div>}
+				{error && <div className="mb-4 text-red-500">{error}</div>}
 				<div className="h-[90px]"></div>
 
 				<form
 					onSubmit={handleSubmit}
-					className="flex flex-col justify-center items-center w-full sm:w-2/3 pl-8 bg-white h-screen"
+					className="flex flex-col items-center justify-center w-full h-screen pl-8 bg-white sm:w-2/3"
 				>
 					{/* Salary Amount */}
 					<div className="mb-6">
@@ -198,7 +198,7 @@ const ApplyForLoan = () => {
 			</div>
 
 			{/* Right side: Green Container */}
-			<div className="flex justify-center items-center bg-green-800 text-white w-full sm:w-1/3 p-8">
+			<div className="flex items-center justify-center w-full p-8 text-white bg-green-800 sm:w-1/3">
 				<img src={EasyGreenLogo} alt="Easy Green Logo" className="mb-4" />
 			</div>
 		</div>

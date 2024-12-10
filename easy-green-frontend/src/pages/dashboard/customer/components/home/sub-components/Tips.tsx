@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { pxToViewport } from "/Users/jeffreybenson/Documents/React/React Project/easy-green/easy-green-frontend/src/utils/viewport.tsx";
+import { pxToViewport } from "../../../../../../utils/viewport";
 export const TipsComponent = () => {
 	// State to store viewport values
 	const [containerWidth, setContainerWidth] = useState(0);

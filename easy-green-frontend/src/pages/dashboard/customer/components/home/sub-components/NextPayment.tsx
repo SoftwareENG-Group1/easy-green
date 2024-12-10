@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { pxToViewport } from "/Users/jeffreybenson/Documents/React/React Project/easy-green/easy-green-frontend/src/utils/viewport.tsx";
+import { pxToViewport } from "../../../../../../utils/viewport.tsx";
 
 export const NextPaymentComponent = () => {
 	// State to store viewport values

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import { pxToViewport } from "../../../../../../utils/viewport";
-import walletAdd from "/Users/jeffreybenson/Documents/React/React Project/easy-green/easy-green-frontend/src/assets/icons/wallet-add.svg";
-import moneyBag from "/Users/jeffreybenson/Documents/React/React Project/easy-green/easy-green-frontend/src/assets/icons/money-3.svg";
-import walletMinus from "/Users/jeffreybenson/Documents/React/React Project/easy-green/easy-green-frontend/src/assets/icons/wallet-minus.svg";
+import walletAdd from "../../../../../../assets/icons/wallet-add.svg";
+import moneyBag from "../../../../../..//assets/icons/money-3.svg";
+import walletMinus from "../../../../../../assets/icons/wallet-minus.svg";
 const PaymentHistory = () => {
 	// State for dynamic viewport-based values
 	const [cardWidth, setCardWidth] = useState(0);
@@ -118,7 +118,7 @@ const PaymentHistory = () => {
 								<span className="text-[#23E233] text-sm font-bold">
 									{item.status}
 								</span>
-								<span className="text-gray-600 text-lg">{item.icon}</span>
+								<span className="text-lg text-gray-600">{item.icon}</span>
 							</div>
 						</div>
 					))}
