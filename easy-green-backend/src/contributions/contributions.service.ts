@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MonthlyContributions, MonthlyContributionStatus } from 'src/monthly-contributions/entity/monthly-contributions.entity';
 import { Repository } from 'typeorm';
 import { CreateContributionsDto } from './dto/create-contributions.dto';
 import { Contributions, ContributionStatus } from './entity/contributions.entity';
 import { Borrower } from 'src/borrower/entity/borrower.entity';
+import { Loan, LoanStatus } from 'src/loan/entity/loan.entity';
 
 
 @Injectable()
@@ -17,6 +18,8 @@ export class ContributionsService {
         private readonly monthlyContributionsRepository: Repository<MonthlyContributions>,
         @InjectRepository(Borrower)
         private readonly borrowerRepository: Repository<Borrower>,
+        @InjectRepository(Loan)
+        private readonly loanRepository: Repository<Loan>
     ){}
 
     async createContributions(createContributionsDto: CreateContributionsDto): Promise<Contributions>{
@@ -25,7 +28,20 @@ export class ContributionsService {
         if (!borrower) {
           throw new NotFoundException('Borrower not found');
         }
-        
+        const loanExists = await this.loanRepository.findOne({
+          where: {borrowerId: borrower.borrowerId, status: LoanStatus.Active}
+      })
+
+      if (loanExists) {
+          throw new BadRequestException('Borrower already has an active loan and cannot start contributing');
+      }
+
+      const currentlyContributing = await this.contributionsRepository.findOne({
+        where: {borrower: borrower, status: ContributionStatus.Active}
+    })
+    if (currentlyContributing) {
+        throw new BadRequestException('Borrower is currently contributing to a contribution');
+    }
         const contribution = this.contributionsRepository.create(createContributionsDto);
 
         contribution.totalAmountPaid = 0; 
