@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 
 const LoanDashboard = () => {
-  const [nextPayment, setNextPayment] = useState({
+  const [nextPayment] = useState({
     amount: 450,
     date: "2025-01-10",
   });
-  const [loanBalance, setLoanBalance] = useState({
+  const [loanBalance] = useState({
     paid: 3000,
     total: 10000,
   });

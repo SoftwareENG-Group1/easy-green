@@ -1,6 +1,6 @@
-import { useState } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
 import {
+  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -9,23 +9,21 @@ import {
   TableContainer,
   Paper,
   TextField,
-  CircularProgress,
   Alert,
 } from "@mui/material";
 import AdminClientModal from "./components/modal";
 import { Client } from "./components/interfaces";
+import axios from "axios";
 
 const AdminClient = () => {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [clients] = useState<Client[]>([]);
+  const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
 
-  
-  
 
   const handleRowClick = async (client: Client) => {
     setLoading(true);
@@ -137,7 +135,10 @@ const AdminClient = () => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={6} style={{ textAlign: "center", color: "gray" }}>
+                <TableCell
+                  colSpan={6}
+                  style={{ textAlign: "center", color: "gray" }}
+                >
                   No results found
                 </TableCell>
               </TableRow>
@@ -147,7 +148,11 @@ const AdminClient = () => {
       </TableContainer>
 
       {/* Modal */}
-      <AdminClientModal open={open} onClose={handleClose} client={selectedClient} />
+      <AdminClientModal
+        open={open}
+        onClose={handleClose}
+        client={selectedClient}
+      />
     </div>
   );
 };

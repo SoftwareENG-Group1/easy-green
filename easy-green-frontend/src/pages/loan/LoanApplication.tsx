@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import EasyGreenLogo from "../../../assets/images/Easy-Green.png"; 
-import rightArrow from "../../../assets/icons/arrow-right.svg";
-import menu from "../../../assets/icons/Menu.svg";
+import EasyGreenLogo from "../../assets/images/Easy-Green.png"; 
+import rightArrow from "../../assets/icons/arrow-right.svg";
+import menu from "../../assets/icons/Menu.svg";
 const ApplyForLoan = () => {
 	const [salaryAmount, setSalaryAmount] = useState("")
 	const [salaryPeriod, setSalaryPeriod] = useState("");
@@ -168,7 +168,7 @@ const ApplyForLoan = () => {
 							name="loanTerm"
 							value={loanTerm}
 							onChange={(e) => setLoanTerm(e.target.value)}
-							className="w-[619px] mt-2 p-4 border border-gray-300 bg-white rounded-md text-gray-700 focus:border-gray-800 focus:outline-none text-[16px] text-[#94A3B8]"
+							className="w-[619px] mt-2 p-4 border border-gray-300 bg-white rounded-md text-gray-700 focus:border-gray-800 focus:outline-none text-[16px]"
 						>
 							<option value="">Select Loan Term</option>
 							<option value="12">12 Months</option>

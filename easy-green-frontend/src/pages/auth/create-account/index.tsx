@@ -322,25 +322,25 @@ export default function Form() {
         </div>
         <div className="flex items-center justify-center min-h-screen col-span-2 p-10 transform scale-90">
           <div className="flex flex-col min-w-[80%] gap-10">
-            <h2 className="mb-4 font-bold text-center text-[#003300] text-7xl">
+            <h2 className="mb-4 font-[Glowfor] text-center text-[#003300] text-7xl">
               Create your account
             </h2>
             <div className="flex justify-center gap-6 mb-4">
               <button
-                className={`px-4 py-2 ${
+                className={`px-8 py-4 rounded-md ${
                   userType === "admin"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-300"
+                    ? "bg-[#114411] text-white"
+                    : "bg-gray-300 text-[#114411]" 
                 }`}
                 onClick={() => handleUserTypeSwitch("admin")}
               >
                 Admin
               </button>
               <button
-                className={`px-4 py-2 ${
+                className={`px-8 py-4 rounded-md ${
                   userType === "customer"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-300"
+                    ? "bg-[#114411] text-white"
+                    : "bg-gray-300 text-[#114411]"
                 }`}
                 onClick={() => handleUserTypeSwitch("customer")}
               >
@@ -400,7 +400,7 @@ export default function Form() {
             </nav>
 
             {/* Form */}
-            <form className="mt-12 " onSubmit={handleSubmit(processForm)}>
+            <form className="mt-12 text-black" onSubmit={handleSubmit(processForm)}>
               {currentStep === 0 && (
                 <motion.div
                   initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}

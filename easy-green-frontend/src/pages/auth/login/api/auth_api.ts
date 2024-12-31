@@ -23,3 +23,17 @@ export const loginUser = async (email: string, password: string) => {
     }
   }
 };
+
+export const fetchAllBorrowers = async () => {
+  try {
+    const response = await axiosInstance.get(`/borrower`);
+    return response.data;
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      console.log(error.message)
+      throw new Error(error.response?.data?.message || "Failed to fetch borrower details.");
+    } else {
+      throw new Error("An unknown error occurred while fetching borrower details.");
+    }
+  }
+};

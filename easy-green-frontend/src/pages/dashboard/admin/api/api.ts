@@ -19,6 +19,19 @@ export const fetchLoans = async () => {
   }
 };
 
+export const fetchAllBorrowers = async () => {
+  try {
+    const response = await axiosInstance.get(`/borrower`);
+    return response.data;
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      throw new Error(error.response?.data?.message || "Failed to fetch borrower details.");
+    } else {
+      throw new Error("An unknown error occurred while fetching borrower details.");
+    }
+  }
+};
+
 // Fetch borrower details for a given loan
 export const fetchBorrowerDetails = async (loan: Loan) => {
   try {
