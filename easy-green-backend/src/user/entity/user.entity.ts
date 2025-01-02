@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne } from "typeorm";
 import { IsEmail, Length } from "class-validator";
+import { Borrower } from "src/borrower/entity/borrower.entity";
 
 export enum UserRole {
     Admin = "Admin",
@@ -43,5 +44,10 @@ export class User {
 
     @UpdateDateColumn()
     updatedAt: Date;
+
+
+    // Relationship with Borrower, a user can be a borrower but not all users are borrowers
+    @OneToOne(() => Borrower, (borrower) => borrower.user, { cascade: true, nullable: true })
+    borrower: Borrower;
 
 }

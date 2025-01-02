@@ -1,12 +1,12 @@
 import { Borrower } from "src/borrower/entity/borrower.entity";
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, ManyToOne, JoinColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, ManyToOne, JoinColumn, JoinTable } from "typeorm";
 import { MonthlyPayment } from "src/monthly-payments/entity/monthly-payments.entity";
 //import { MonthlyPayment } from "./monthly-payment.entity"; // Assuming the MonthlyPayment entity is in the same folder
 
 export enum LoanStatus {
     Active = 'Active',
     Closed = 'Closed',
-    Defaulted = 'Defaulted',
+    Completed = 'Completed',
     Pending = 'Pending'
 }
 
@@ -22,7 +22,7 @@ export class Loan {
     description?: string;  
 
     @Column('decimal', { precision: 12, scale: 2 })
-    loanAmount: number;  
+    loanAmount: number;  // total amount needed as loan
 
     @Column('int')
     amortizationPeriod: number;  // Period (in months) over which the loan is repaid
@@ -36,11 +36,20 @@ export class Loan {
     @Column('date')
     endDate: Date;  // Date when the loan is expected to end
 
-    @OneToMany(() => MonthlyPayment, (monthlyPayment) => monthlyPayment.loan)
+    @OneToMany(() => MonthlyPayment, (monthlyPayment) => monthlyPayment.loan, {cascade: true})
     monthlyPayments: MonthlyPayment[];  // Relationship with MonthlyPayments
 
     @Column('decimal', { precision: 12, scale: 2 })
     outstandingBalance: number;  
+
+    @Column('decimal', { precision: 12, scale: 2, nullable: true})
+    amountToBePaidMonthly?: number;  // Amount to be paid monthly
+
+    @Column('date', {nullable: true})
+    dueDate?: Date;  // Date when the loan is due
+
+    @Column('date', {nullable: true})
+    approvalDate?: Date;  // Date when the loan is approved
 
     @Column({
         type: 'enum',
@@ -55,7 +64,10 @@ export class Loan {
     @UpdateDateColumn()
     updatedAt: Date; 
 
-    @ManyToOne(()=> Borrower, (borrower) => borrower.borrowerId)
+    @ManyToOne(()=> Borrower, (borrower) => borrower.loans)
     @JoinColumn({name: 'borrowerId'})
-    borrowerId: Borrower; // Relationship with Borrower
+    borrower: Borrower; // Relationship with Borrower
+
+    @Column()
+    borrowerId: number;  // Borrower ID
 }

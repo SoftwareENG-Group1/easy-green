@@ -10,6 +10,7 @@ import { User } from 'src/user/entity/user.entity';
   imports: [TypeOrmModule.forFeature([Borrower]), 
   UserModule],
   controllers: [BorrowerController],
-  providers: [BorrowerService]
+  providers: [BorrowerService],
+  exports: [BorrowerService, TypeOrmModule]
 })
 export class BorrowerModule {}
