@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import EasyGreenLogo from "../../assets/images/Easy-Green.png"; 
+import EasyGreenLogo from "../../assets/images/Easy-Green.png";
 import rightArrow from "../../assets/icons/arrow-right.svg";
 import menu from "../../assets/icons/Menu.svg";
+import { createLoan } from "./api/api";
+import { AxiosError } from "axios";
+import { LoanData } from "./components/interfaces";
+
 const ApplyForLoan = () => {
-	const [salaryAmount, setSalaryAmount] = useState("")
+	const [salaryAmount, setSalaryAmount] = useState("");
 	const [salaryPeriod, setSalaryPeriod] = useState("");
 	const [loanPurpose, setLoanPurpose] = useState("");
 	const [loanAmount, setLoanAmount] = useState("");
@@ -24,14 +28,60 @@ const ApplyForLoan = () => {
 			setError("All fields are required");
 		} else {
 			setError("");
-			console.log("Submitting loan application...", {
-				salaryAmount,
-				salaryPeriod,
-				loanPurpose,
-				loanAmount,
-				interestRate,
-				loanTerm,
-			});
+			handleCreateLoan();
+		}
+	};
+	const calculateDates = (
+		loanTerm: string
+	): { startDate: string; endDate: string } => {
+		// Step 1: Extract the number of months from the loan term
+		const months = parseInt(loanTerm.replace(" Months", ""), 10);
+
+		if (isNaN(months)) {
+			throw new Error(
+				"Invalid loan term format. Please provide a valid term (e.g., '12 Months')."
+			);
+		}
+
+		// Step 2: Get the current date as the start date
+		const startDate = new Date();
+
+		// Step 3: Calculate the end date
+		const endDate = new Date(startDate); // Clone the start date
+		endDate.setMonth(endDate.getMonth() + months); // Add the loan term (in months)
+
+		// Format dates as ISO strings (optional, depends on your API format)
+		const formattedStartDate = startDate.toISOString(); // e.g., "2025-01-06T10:15:30.000Z"
+		const formattedEndDate = endDate.toISOString();
+
+		return {
+			startDate: formattedStartDate,
+			endDate: formattedEndDate,
+		};
+	};
+
+	const handleCreateLoan = async () => {
+		const dates = calculateDates(loanTerm);
+		console.log(loanTerm);
+		const loanPayload: LoanData = {
+			purpose: loanPurpose,
+			description: "",
+			loanAmount: Number(loanAmount),
+			amortizationPeriod: parseInt(loanTerm.replace(" Months", ""), 10), // in months
+			interestRate: Number(interestRate), // in percentage
+			startDate: dates.startDate,
+			endDate: dates.endDate,
+			status: "Active",
+			borrowerId: 1,
+		};
+
+		try {
+			const createdLoan = await createLoan(loanPayload);
+			console.log("Loan created successfully:", createdLoan);
+		} catch (error: unknown) {
+			if (error instanceof AxiosError) {
+				console.error(error.message);
+			}
 		}
 	};
 

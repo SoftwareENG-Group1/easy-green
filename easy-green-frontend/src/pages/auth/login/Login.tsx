@@ -8,7 +8,7 @@ const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
-	const [successMessage, setSuccessMessage] = useState("");
+
 	const [loading, setLoading] = useState<boolean>(false);
 	const navigate = useNavigate();
 
@@ -16,19 +16,18 @@ const Login = () => {
 		e.preventDefault();
 		setLoading(true);
 		setError("");
-		setSuccessMessage("");
+
 		if (!email || !password) {
 			setError("Both fields are required");
 		} else {
 			try {
 				const response = await loginUser(email, password);
 				const { accessToken, refreshToken } = response;
-				console.log(accessToken)
+				console.log(accessToken);
 				// Store tokens in local storage
 				localStorage.setItem("accessToken", accessToken);
 				localStorage.setItem("refreshToken", refreshToken);
 
-				setSuccessMessage("Login successful! Redirecting...");
 				setTimeout(() => {
 					navigate("/admin/");
 				}, 1000);
@@ -50,7 +49,9 @@ const Login = () => {
 	return (
 		<div className="flex min-h-screen bg-white">
 			<div className="flex flex-col justify-center w-full px-10 lg:px-32">
-				<h2 className="mb-2 text-4xl text-black font-[Glowfor] px-[20%]">Sign In</h2>
+				<h2 className="mb-2 text-4xl text-black font-[Glowfor] px-[20%]">
+					Sign In
+				</h2>
 				<p className="mb-12 text-sm text-black font-inter px-[20%]">
 					Enter your credentials to access your account
 				</p>
@@ -92,10 +93,7 @@ const Login = () => {
 					</div>
 
 					<div className="text-right">
-						<a
-							href="#"
-							className="text-sm font-bold text-[#114411] font-inter"
-						>
+						<a href="#" className="text-sm font-bold text-[#114411] font-inter">
 							Forgot Password?
 						</a>
 					</div>
@@ -120,10 +118,7 @@ const Login = () => {
 			</div>
 
 			<div className="flex bg-[#114411] justify-center items-center">
-				<img
-					src={EasyGreenLogo}
-					alt="Easy Green Logo"
-				/>
+				<img src={EasyGreenLogo} alt="Easy Green Logo" />
 			</div>
 		</div>
 	);
