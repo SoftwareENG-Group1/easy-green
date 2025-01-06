@@ -9,3 +9,4 @@ export interface LoanData {
 	status: "Active" | "Closed" | "Pending"; // Add other statuses if applicable
 	borrowerId: number;
 }
+
